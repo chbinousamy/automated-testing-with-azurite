@@ -40,6 +40,7 @@ jobs:
       with:
         name: code-coverage-report
         path: |
+          report.html
           htmlcov
           coverage.xml
           unit_tests_report.xml
