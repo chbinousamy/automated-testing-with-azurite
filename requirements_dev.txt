@@ -2,3 +2,4 @@ requests
 azure-storage-blob==12.3.2
 pytest
 pytest-cov
+pytest-html
