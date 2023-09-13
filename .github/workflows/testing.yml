@@ -35,4 +35,11 @@ jobs:
     - run: |
         python -m pytest --junit-xml=unit_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests
         ls
-
+    - name: Archive report and code coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: |
+          htmlcov
+          coverage.xml
+          unit_tests_report.xml
