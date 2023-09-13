@@ -1,0 +1,41 @@
+# This is a basic workflow that is manually triggered
+
+name: Test Workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  test-azurit:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/setup-node@v3
+    - name: Checkout Azurite
+      uses: actions/checkout@v4
+    - run: npm install
+    - run: npm run build
+    - run: npm install -g
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'     
+    - run: pip install -r requirements_dev.txt
+    - run: |
+        mkdir -p testdir
+        azurite --silent --location ./testdir --debug ./testdir/debug.log &
+        sleep 5
+        cat ./testdir/debug.log
+    - run: |
+        python -m pytest --junit-xml=unit_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests
+        ls
+
