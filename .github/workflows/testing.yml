@@ -33,7 +33,7 @@ jobs:
         sleep 5
         cat ./testdir/debug.log
     - run: |
-        python -m pytest --junit-xml=unit_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests
+        python -m pytest --html=report.html --junit-xml=unit_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests
         ls
     - name: Archive report and code coverage
       uses: actions/upload-artifact@v3
